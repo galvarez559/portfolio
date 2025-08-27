@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Video — Gio Alvarez</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+<body>
+  <header class="container header">
+    <h1 class="logo"><a href="index.html">Gio Alvarez</a></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="videos.html" class="active">Family</a>
+      <a href="resume.html">Résumé</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Family Video</h2>
+    <p class="muted">This page is unlisted. Share the link only with family.</p>
+
+    <div class="player">
+      <!-- Option A: YouTube/Vimeo embed (recommended for large files) -->
+      <div class="embed">
+        <iframe
+          src="https://youtube.com/shorts/unBMzkppVQ0"
+          title="Family Video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <p class="muted center">— or —</p>
+
+      <!-- Option B: Direct MP4 (small files) -->
+      <video controls width="100%">
+        <source src="assets/family.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <p class="center"><a class="link" href="assets/family.mp4" download>Download video</a></p>
+    </div>
+  </main>
+
+  <footer class="container footer">
+    <span>© <span id="year"></span> Gio Alvarez</span>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

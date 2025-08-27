@@ -1,0 +1,9 @@
+# Netlify config for a static site (no build step needed)
+[build]
+  publish = "."
+
+# Uncomment to force www → apex or vice versa using redirects:
+# [[redirects]]
+#   from = "https://www.gio-devops-projects.com/*"
+#   to = "https://gio-devops-projects.com/:splat"
+#   status = 301
