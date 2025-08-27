@@ -68,18 +68,19 @@ a:hover { text-decoration: underline; }
   color: var(--muted);
 }
 
+/* Shared frame styling */
 .player .embed {
+  position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;           /* default landscape */
-  border: 1px solid var(--border);
+  max-width: 600px;          /* cap width on big screens */
+  margin: 0 auto;            /* center */
+  border: 5px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   background: #000;
-  position: relative;
-}
-
-.player .embed.vertical {
+  /* Desktop/laptop default: 16:9 so it looks "regular" */
   aspect-ratio: 9 / 16;
+  max-height: 80vh;          /* never grow taller than the viewport */
 }
 
 .player .embed iframe {
@@ -89,12 +90,20 @@ a:hover { text-decoration: underline; }
   height: 100%;
 }
 
-.player video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border: 1px solid var(--border);
-  border-radius: 12px;
+/* Phones: use vertical 9:16 so Shorts feel natural */
+@media (max-width: 640px) {
+  .player .embed {
+    aspect-ratio: 9 / 16;
+    max-width: 100%;         /* fill phone width */
+    max-height: 86vh;        /* keep within the screen */
+  }
+}
+
+/* Optional: medium screens (tablets) keep it modest */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .player .embed {
+    max-width: 720px;        /* keep it from getting huge */
+  }
 }
 .center { text-align: center; }
 .project { margin: 18px 0 28px; }
