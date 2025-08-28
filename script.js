@@ -16,6 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
   let index = 0;
   let timer = null;
   const AUTO_MS = 10000;
+  const FADE_MS = 1500;
+  function start() { if (timer) return; timer = setInterval(next, AUTO_MS); }
+  function stop()  { if (!timer) return; clearInterval(timer); timer = null; }
+  function restart(){ stop(); start(); }
+
+    // small cooldown during fade to ignore spam clicks
+  let isBusy = false;
+  function go(i, user = false) {
+    if (isBusy) return;
+    isBusy = true;
+    index = (i + slides.length) % slides.length;
+    render();
+    if (user) restart(); // refresh autoplay after user action
+    setTimeout(() => { isBusy = false; }, FADE_MS + 100);
+  }
 
   // Build dots
   slides.forEach((_, i) => {
