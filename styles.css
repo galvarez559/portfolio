@@ -18,7 +18,15 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
+  /* Dark green base */
+  background-color: var(--bg);
+
+  /* Overlay the forest image at the bottom */
+  background-image: url("assets/forest.png"),
+                    linear-gradient(to top, rgba(6,46,36,1) 0%, rgba(6,46,36,0.9) 40%, rgba(6,46,36,0.8) 100%);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: 100% auto; /* Stretch image across bottom */
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
   line-height: 1.55;
