@@ -22,7 +22,7 @@ html, body {
   background-color: var(--bg);
 
   /* Overlay the forest image at the bottom */
-  background-image: url("assets/forest.png"),
+  
                     linear-gradient(to top, rgba(6,46,36,1) 0%, rgba(6,46,36,0.9) 40%, rgba(6,46,36,0.8) 100%);
   background-repeat: no-repeat;
   background-position: bottom center;
@@ -269,3 +269,37 @@ p {
         filter: blur(24px);
         pointer-events: none;
     }
+/* Bottom misty-forest band: consistent across devices */
+body::after {
+  content: "";
+  position: fixed;      /* stays at the bottom of the viewport */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Height scales with screen, but stays within a nice range */
+  height: clamp(220px, 32vh, 420px);
+
+  /* Forest image covered + gradient fade into the dark green */
+  background:
+    linear-gradient(to Bottom,
+      rgba(6,46,36,1) 5%,
+      rgba(6,46,36,0.88) 10%,
+      rgba(6,46,36,0.55) 20%,
+      rgba(6,46,36,0.10) 25%,
+      rgba(6,46,36,0.00) 30%
+    ),
+    url("assets/forest.png") bottom center / cover no-repeat;
+
+  opacity: 0.30;         /* subtle; adjust 0.25–0.5 */
+  filter: blur(0px);     /* soft “misty” look; try 0–2px */
+  pointer-events: none;  /* never block clicks */
+  z-index: 0;
+}
+
+/* Make sure your page content sits above the background layer */
+header, main, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Optional: if you had any previous body background-image rules, remove them */
