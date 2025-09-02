@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const root of roots) boot(root);
 
   function boot(root) {
-    const basePath   = root.getAttribute('data-base') || 'assets/Family and Freinds Event';
+    const basePath   = root.getAttribute('data-base') || 'assets';
     const manifest   = root.getAttribute('data-manifest');
     const slidesWrap = root.querySelector('.slides');
     const prevBtn    = root.querySelector('.nav.prev');
