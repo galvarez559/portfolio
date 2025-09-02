@@ -20,15 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (rawMan) {
       const manifestUrl = encodePath(rawMan);
       fetch(manifestUrl)
-        .then(r => { if (!r.ok) throw new Error(`${r.status} ${r.statusText} @ ${manifestUrl}`); return r.json(); })
+        .then(r => {
+          if (!r.ok) throw new Error(`${r.status} ${r.statusText} @ ${manifestUrl}`);
+          return r.json();
+        })
         .then(files => {
           slidesWrap.innerHTML = '';
           dotsWrap && (dotsWrap.innerHTML = '');
 
           const base = encodePath(rawBase);
+
+          // 👉 Debug logs go here
+          console.log('[SLIDESHOW] manifest OK:', manifestUrl, files);
           files.forEach(name => {
+            const url = `${base}/${encodeURIComponent(name)}`;
+            console.log('[SLIDESHOW] add img:', url);
+
             const img = document.createElement('img');
-            img.src = `${base}/${encodeURIComponent(name)}`;
+            img.src = url;
             img.alt = name;
             img.className = 'slide';
             img.loading = 'lazy';
@@ -69,12 +78,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function render() {
       slides.forEach((el, i) => el.classList.toggle('is-active', i === index));
-      if (dotsWrap) dotsWrap.querySelectorAll('button').forEach((d,i)=>d.classList.toggle('is-active', i===index));
+      if (dotsWrap) {
+        dotsWrap.querySelectorAll('button').forEach((d,i)=>
+          d.classList.toggle('is-active', i===index)
+        );
+      }
     }
 
     let t=null, busy=false;
     const schedule = () => { clearTimeout(t); t=setTimeout(()=>go(index+1), AUTO_MS); };
-    function go(i, user=false){ if(busy) return; busy=true; index=(i+slides.length)%slides.length; render(); setTimeout(()=>busy=false, FADE_MS+50); schedule(); }
+    function go(i, user=false){
+      if(busy) return;
+      busy=true;
+      index=(i+slides.length)%slides.length;
+      render();
+      setTimeout(()=>busy=false, FADE_MS+50);
+      schedule();
+    }
     prevBtn && prevBtn.addEventListener('click', ()=>go(index-1,true));
     nextBtn && nextBtn.addEventListener('click', ()=>go(index+1,true));
     root.addEventListener('mouseenter', ()=>clearTimeout(t));
