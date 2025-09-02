@@ -1,10 +1,10 @@
----Family and Freinds Event
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Family Video — The Alvarez</title>
+  <title>Family And Freinds</title>
   <link rel="stylesheet" href="styles.css" />
   <meta name="robots" content="noindex, nofollow" />
 </head>
@@ -20,32 +20,14 @@
     </nav>
   </header>
 
+
+
+
+
+
+
   <main class="container">
-    <h2>Coming Soon To A Course Near You!!</h2>
-    <!-- <p class="muted">This page is unlisted. Share the link only with family.</p>-->
-
-    <div class="player">
-      <!-- Option A: YouTube/Vimeo embed (recommended for large files) -->
-      <div class="embed vertical" id="family-video">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/unBMzkppVQ0"
-          title="Family Video"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
-      </div>
-
-      <p class="muted center">— or —</p>
-
-      <!-- Option B: Direct MP4 (small files) -->
-      <!--<video controls width="100%">
-        <source src="assets/Video.mov" type="video/mov" />
-        Your browser does not support the video tag.
-      </video>-->
-      <p class="center"><a class="link" href="assets/Video.mov" download>Download Video</a></p>
-    </div>
+    <h2>In Case You Missed It!</h2>
 
   <section class="family-slideshow">
     <h4 class="btn"> Wedding Day (Comming soon)</h4>
@@ -54,20 +36,26 @@
 
     <h4 class="btn"> ADVENTURES (Comming soon)</h4>
 
-    <h3>Family Moments</h3>
+    <h3>Family & Friends</h3>
 
-    <div class="slideshow" id="family-slideshow">
-      <button class="nav prev" aria-label="Previous photo"></button>
-      
-      <div class="slides">
-        <img class="slide" src="assets/1.jpeg" loading="lazy" />
-        <img class="slide" src="assets/2.jpeg" loading="lazy "/>
-      </div>
-      <button class="nav next" aria-label="Next photo"></button>
+    <div class="slideshow" id="family-slideshow"
+        data-base="assets/Family and Freinds Event"
+        data-manifest="assets/Family and Freinds Event/Family and Freinds Event.json">
+      <button class="nav prev" aria-label="Previous photo">‹</button>
+
+      <div class="slides"></div>
+
+      <button class="nav next" aria-label="Next photo">›</button>
       <div class="dots"></div>
     </div>
   </section>
   </main>
+
+
+
+
+
+
 
   <footer class="container footer">
     <span>© <span id="year"></span> Giovanni Alvarez</span>

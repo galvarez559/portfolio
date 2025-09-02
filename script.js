@@ -3,105 +3,124 @@ document.addEventListener('DOMContentLoaded', () => {
   const y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 });
-// ----- Simple slideshow (clean, single definitions) -----
+
+
+
+
+// ----- Multi-slideshow init (JSON manifest driven) -----
 (function () {
-  const root = document.getElementById('family-slideshow');
-  if (!root) return;
+  const roots = Array.from(document.querySelectorAll('.slideshow[data-manifest]'));
+  if (!roots.length) return;
 
-  const slides   = Array.from(root.querySelectorAll('.slide'));
-  const prevBtn  = root.querySelector('.nav.prev');
-  const nextBtn  = root.querySelector('.nav.next');
-  const dotsWrap = root.querySelector('.dots');
+  for (const root of roots) boot(root);
 
-  let index = 0;
+  function boot(root) {
+    const basePath   = root.getAttribute('data-base') || 'assets/Family and Freinds Event';
+    const manifest   = root.getAttribute('data-manifest');
+    const slidesWrap = root.querySelector('.slides');
+    const prevBtn    = root.querySelector('.nav.prev');
+    const nextBtn    = root.querySelector('.nav.next');
+    const dotsWrap   = root.querySelector('.dots');
 
-  // Tune these to taste
-  const AUTO_MS = 10000;   // 10s per slide
-  const FADE_MS = 1500;    // must match your CSS fade duration
+    fetch(manifest)
+      .then(r => {
+        if (!r.ok) throw new Error(`Manifest fetch failed: ${r.status} ${r.statusText} @ ${manifest}`);
+        return r.json();
+      })
+      .then(files => {
+        // ... same as before
+      })
+      .catch(err => {
+        console.error('Slideshow manifest load error:', err);
+        const p = document.createElement('p');
+        p.textContent = `Could not load photos right now. (${err.message})`;
+        p.style.color = 'var(--muted)';
+        slidesWrap.replaceChildren(p);
+      });
 
-  // Build dots once
-  slides.forEach((_, i) => {
-    const b = document.createElement('button');
-    b.setAttribute('aria-label', `Go to slide ${i + 1}`);
-    b.addEventListener('click', () => go(i, true));
-    dotsWrap.appendChild(b);
-  });
+        initSlideshow(root);
+      })
+      .catch(err => {
+        console.error(err);
+        const p = document.createElement('p');
+        p.textContent = 'Could not load photos right now.';
+        p.style.color = 'var(--muted)';
+        slidesWrap.replaceChildren(p);
+      });
 
-  // Render active slide + dot
-  function render() {
-    slides.forEach((img, i) => img.classList.toggle('is-active', i === index));
-    dotsWrap.querySelectorAll('button').forEach((d, i) => d.classList.toggle('is-active', i === index));
-  }
+    function initSlideshow(root) {
+      const slides = Array.from(root.querySelectorAll('.slide'));
+      if (!slides.length) return;
 
-  // --- Autoplay handled by a single timeout ---
-  let timer = null;
-  function clearTimer() {
-    if (timer) { clearTimeout(timer); timer = null; }
-  }
-  function scheduleNext(delay = AUTO_MS) {
-    clearTimer();
-    timer = setTimeout(() => { next(false); }, delay);
-  }
+      let index = 0;
+      const AUTO_MS = 10000;  // your 10s per slide
+      const FADE_MS = 1500;   // match CSS
 
-  // Cooldown to ignore spam clicks while fading
-  let isBusy = false;
+      // build dots
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        b.addEventListener('click', () => go(i, true));
+        dotsWrap.appendChild(b);
+      });
 
-  function go(i, userTriggered = false) {
-    if (isBusy) return;
-    isBusy = true;
+      function render() {
+        slides.forEach((img, i) => img.classList.toggle('is-active', i === index));
+        dotsWrap.querySelectorAll('button').forEach((d, i) => d.classList.toggle('is-active', i === index));
+      }
 
-    index = (i + slides.length) % slides.length;
-    render();
+      // single-timeout autoplay (no stacking)
+      let timer = null;
+      const clearTimer = () => { if (timer) { clearTimeout(timer); timer = null; } };
+      const scheduleNext = (delay = AUTO_MS) => { clearTimer(); timer = setTimeout(() => next(false), delay); };
 
-    // After a user action, wait a full AUTO_MS before advancing again
-    // After an auto advance, also wait AUTO_MS.
-    const delay = AUTO_MS;
+      // cooldown during fade
+      let isBusy = false;
+      function go(i, userTriggered = false) {
+        if (isBusy) return;
+        isBusy = true;
 
-    // unlock after fade finishes
-    setTimeout(() => { isBusy = false; }, FADE_MS + 50);
+        index = (i + slides.length) % slides.length;
+        render();
 
-    // reschedule the next auto-advance
-    scheduleNext(delay);
-  }
+        setTimeout(() => { isBusy = false; }, FADE_MS + 50);
+        scheduleNext(AUTO_MS); // full pause after any change
+      }
+      function next(user){ go(index + 1, user); }
+      function prev(user){ go(index - 1, user); }
 
-  function next(userTriggered) { go(index + 1, userTriggered); }
-  function prev(userTriggered) { go(index - 1, userTriggered); }
+      // controls
+      prevBtn?.addEventListener('click', () => prev(true));
+      nextBtn?.addEventListener('click', () => next(true));
 
-  // Pause/resume on hover/focus with safe scheduling
-  root.addEventListener('mouseenter', () => clearTimer());
-  root.addEventListener('mouseleave', () => scheduleNext());
-  root.addEventListener('focusin',   () => clearTimer());
-  root.addEventListener('focusout',  () => scheduleNext());
+      // keyboard
+      root.tabIndex = 0;
+      root.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft')  prev(true);
+        if (e.key === 'ArrowRight') next(true);
+      });
 
-  // Buttons & keyboard
-  prevBtn.addEventListener('click', () => go(index - 1, true));
-  nextBtn.addEventListener('click', () => go(index + 1, true));
-  root.tabIndex = 0;
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft')  go(index - 1, true);
-    if (e.key === 'ArrowRight') go(index + 1, true);
-  });
+      // touch
+      let x0 = null;
+      root.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
+      root.addEventListener('touchend',   () => (x0 = null));
+      root.addEventListener('touchmove', (e) => {
+        if (x0 === null) return;
+        const dx = e.touches[0].clientX - x0;
+        if (Math.abs(dx) > 40) { (dx < 0 ? next(true) : prev(true)); x0 = null; }
+      }, { passive: true });
 
-  // Touch swipe
-  let x0 = null;
-  root.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
-  root.addEventListener('touchend',   () => (x0 = null));
-  root.addEventListener('touchmove', (e) => {
-    if (x0 === null) return;
-    const dx = e.touches[0].clientX - x0;
-    if (Math.abs(dx) > 40) {
-      go(index + (dx < 0 ? 1 : -1), true);
-      x0 = null;
+      // pause/resume
+      root.addEventListener('mouseenter', () => clearTimer());
+      root.addEventListener('mouseleave', () => scheduleNext());
+      root.addEventListener('focusin',   () => clearTimer());
+      root.addEventListener('focusout',  () => scheduleNext());
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) clearTimer(); else scheduleNext();
+      });
+
+      render();
+      scheduleNext();
     }
-  }, { passive: true });
-
-  // Pause when tab hidden; resume with a full interval when visible
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) clearTimer();
-    else scheduleNext();
-  });
-
-  // Init
-  render();
-  scheduleNext();
+  }
 })();
