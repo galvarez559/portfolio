@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giovanni Alvarez — Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Portfolio of Gio Alvarez — DevOps projects, Resume, and contact." />
+</head>
+<body>
+  <header class="container header">
+    <h1 class="logo"><a href="index.html">Giovanni Alvarez</a></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="videos.html">Family</a>
+      <a href="resume.html">Resume</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2 class="h-section">Home Labs</h2>
+      <p class="muted">
+        Projects are new and expected to Change.
+      </p>
+      <div class="cta">
+        <a class="btn" href="projects.html">View Projects</a>
+        <a class="btn-outline" href="resume.html">View resume</a>
+      </div>
+    </section>
+
+    <section>
+      <h3>Highlights</h3>
+      <div class="grid">
+        <article class="card">
+          <h4>Kubernetes GitOps</h4>
+          <p class="muted">ArgoCD-managed app deployments across staging & prod.</p>
+          <a class="link" href="projects.html#gitops">Read more →</a>
+        </article>
+        <article class="card">
+          <h4>Terraform on AWS</h4>
+          <p class="muted">Modular infra for VPC, ECS, RDS with CI checks.</p>
+          <a class="link" href="projects.html#terraform">Read more →</a>
+        </article>
+        <article class="card">
+          <h4>Observability Stack</h4>
+          <p class="muted">Prometheus, Loki, Grafana dashboards & alerts.</p>
+          <a class="link" href="projects.html#observability">Read more →</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <span>© <span id="year"></span> Giovanni Alvarez</span>
+    <span><a href="https://gio-devops-projects.com">gio-devops-projects.com</a></span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

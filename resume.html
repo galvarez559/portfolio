@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — Giovanni Alvarez</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="container header">
+    <h1 class="logo"><a href="index.html">Giovanni Alvarez</a></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="videos.html">Family</a>
+      <a href="resume.html" class="active">Resume</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Resume</h2>
+
+    <!-- Inline, responsive PDF viewer -->
+    <div class="resume-viewer">
+      <iframe
+        src="assets/Giovanni Alvarez 2025.pdf#view=FitH"
+        title="Resume PDF"
+        loading="lazy"
+      ></iframe>
+    </div>
+    <!-- Fallback for browsers that block iframes -->    
+    <p class="muted">If the resume doesn’t display, <a class="link" href="assets/Giovanni Alvarez 2025.pdf" target="_blank" rel="noopener">open it here</a>.</p>    
+    
+    <div class="resume-actions">
+    <!--<p class="muted">Drop your PDF into <code>/assets/resume.pdf</code> and link below.</p>-->
+      <a class="btn" href="assets/Giovanni Alvarez 2025.pdf" target="_blank" rel="noopener">
+        Download Resume
+      </a>
+    </div>
+  </main>
+
+  <footer class="container footer">
+    <span>© <span id="year"></span> Giovanni Alvarez</span>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

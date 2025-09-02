@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Giovanni Alvarez</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="container header">
+    <h1 class="logo"><a href="index.html">Giovanni Alvarez</a></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="videos.html">Family</a>
+      <a href="resume.html">Resume</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Projects</h2>
+    <section id="gitops" class="project">
+      <h3>Kubernetes GitOps</h3>
+      <p class="muted">ArgoCD, Helm, and Kustomize for environment promotion.</p>
+      <ul>
+        <li>Repo: <a href="#" target="_blank" rel="noopener">github.com/yourname/gitops-demo</a></li>
+        <li>Highlights: PR-based deploys, health checks, rollout strategies.</li>
+      </ul>
+    </section>
+
+    <section id="terraform" class="project">
+      <h3>Terraform on AWS</h3>
+      <p class="muted">Reusable modules for VPC, ECS, RDS, and CloudWatch.</p>
+      <ul>
+        <li>Repo: <a href="#" target="_blank" rel="noopener">github.com/yourname/tf-aws-modules</a></li>
+        <li>Highlights: CI validation, cost-aware defaults, tagging.</li>
+      </ul>
+    </section>
+
+    <section id="observability" class="project">
+      <h3>Observability Stack</h3>
+      <p class="muted">Prometheus + Loki + Grafana with alerting rules.</p>
+      <ul>
+        <li>Repo: <a href="#" target="_blank" rel="noopener">github.com/yourname/observability-stack</a></li>
+        <li>Highlights: SLO dashboards, error budgets, log-based metrics.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <span>© <span id="year"></span> Giovanni Alvarez</span>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
