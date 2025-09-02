@@ -1,5 +1,4 @@
 *.png filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
 assets/Family[[:space:]]and[[:space:]]Friends[[:space:]]Event/** !text !filter !merge !diff
