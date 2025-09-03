@@ -3,12 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 });
-
 (function () {
   const roots = Array.from(document.querySelectorAll('.slideshow'));
   if (!roots.length) return;
 
-  // encode each path segment exactly once
   const encodePath = p => p.split('/').map(seg => encodeURIComponent(decodeURIComponent(seg))).join('/');
 
   for (const root of roots) {
@@ -27,15 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(files => {
           slidesWrap.innerHTML = '';
           dotsWrap && (dotsWrap.innerHTML = '');
-
           const base = encodePath(rawBase);
 
-          // 👉 Debug logs go here
           console.log('[SLIDESHOW] manifest OK:', manifestUrl, files);
           files.forEach(name => {
             const url = `${base}/${encodeURIComponent(name)}`;
-            console.log('[SLIDESHOW] add img:', url);
-
             const img = document.createElement('img');
             img.src = url;
             img.alt = name;
@@ -45,6 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
             slidesWrap.appendChild(img);
           });
 
+          // 👈 Make absolutely sure the first slide is visible before we init
+          const first = slidesWrap.querySelector('.slide');
+          if (first) first.classList.add('is-active');
+
+          console.log('[SLIDESHOW] slides appended:', slidesWrap.children.length);
           initSlideshow(root);
         })
         .catch(err => {
@@ -52,16 +51,19 @@ document.addEventListener('DOMContentLoaded', () => {
           slidesWrap.textContent = `Could not load photos. (${err.message})`;
         });
     } else if (root.querySelector('.slide')) {
-      initSlideshow(root); // manual mode
+      // Manual mode: ensure first is visible
+      const first = root.querySelector('.slide');
+      if (first) first.classList.add('is-active');
+      initSlideshow(root);
     }
   }
 
   function initSlideshow(root) {
-    const slides = Array.from(root.querySelectorAll('.slide'));
+    const slides   = Array.from(root.querySelectorAll('.slide'));
     if (!slides.length) return;
 
-    const prevBtn = root.querySelector('.nav.prev');
-    const nextBtn = root.querySelector('.nav.next');
+    const prevBtn  = root.querySelector('.nav.prev');
+    const nextBtn  = root.querySelector('.nav.next');
     const dotsWrap = root.querySelector('.dots');
 
     dotsWrap && (dotsWrap.innerHTML = '');
@@ -73,7 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
       dotsWrap.appendChild(b);
     });
 
-    let index = 0;
+    let index = Math.max(0, slides.findIndex(s => s.classList.contains('is-active'))); // 👈 start on visible
+    if (index < 0) index = 0;
+
     const AUTO_MS = 10000, FADE_MS = 1500;
 
     function render() {
@@ -87,16 +91,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let t=null, busy=false;
     const schedule = () => { clearTimeout(t); t=setTimeout(()=>go(index+1), AUTO_MS); };
-    function go(i, user=false){
-      if(busy) return;
-      busy=true;
-      index=(i+slides.length)%slides.length;
+    function go(i){
+      if (busy) return;
+      busy = true;
+      index = (i + slides.length) % slides.length;
       render();
-      setTimeout(()=>busy=false, FADE_MS+50);
+      setTimeout(() => busy = false, FADE_MS + 50);
       schedule();
     }
-    prevBtn && prevBtn.addEventListener('click', ()=>go(index-1,true));
-    nextBtn && nextBtn.addEventListener('click', ()=>go(index+1,true));
+
+    prevBtn && prevBtn.addEventListener('click', ()=>go(index-1));
+    nextBtn && nextBtn.addEventListener('click', ()=>go(index+1));
     root.addEventListener('mouseenter', ()=>clearTimeout(t));
     root.addEventListener('mouseleave', schedule);
 
