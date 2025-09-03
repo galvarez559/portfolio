@@ -473,3 +473,5 @@ header, main, footer {
   transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 .slide.is-active { opacity: 1; transform: none; }
+/* TEMP: visualize slideshow box */
+.slideshow .slides { outline: 2px dashed #0f0; background:#111; }
