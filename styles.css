@@ -18,15 +18,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  /* Dark green base */
-  background-color: var(--bg);
-
-  /* Overlay the forest image at the bottom */
-  
-                    linear-gradient(to top, rgba(6,46,36,1) 0%, rgba(6,46,36,0.9) 40%, rgba(6,46,36,0.8) 100%);
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  background-size: 100% auto; /* Stretch image across bottom */
+  background-color: var(--bg);   /* just the base color */
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
   line-height: 1.55;
@@ -367,16 +359,17 @@ header, main, footer {
   box-shadow: var(--shadow);
 }
 
-/* Keep a pleasant aspect ratio that adapts by device */
+/* Give the slides area a real height */
 .slideshow .slides {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;      /* desktop look */
+  aspect-ratio: 16 / 9;          /* desktop/tablet */
 }
 @media (max-width: 640px) {
   .slideshow .slides { aspect-ratio: 4 / 5; }  /* taller on phones */
 }
 
+/* Each slide */
 .slide {
   position: absolute;
   inset: 0;
@@ -385,12 +378,9 @@ header, main, footer {
   object-fit: cover;
   opacity: 0;
   transform: scale(1.02);
-  transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
-.slide.is-active {
-  opacity: 1;
-  transform: none;
-}
+.slide.is-active { opacity: 1; transform: none; }
 
 /* Arrows */
 .slideshow .nav {
@@ -400,7 +390,7 @@ header, main, footer {
   z-index: 2;
   border: none;
   background: rgba(0,0,0,.35);
-  color: #ffffff;
+  color: #fff;
   font-size: 28px;
   width: 40px;
   height: 40px;
@@ -431,47 +421,10 @@ header, main, footer {
   border-color: var(--accent);
 }
 
-/* Pause-on-hover cue (optional) */
+/* Pause-on-hover cue */
 .slideshow:hover .slides::after {
   content: "";
   position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(0,0,0,.18), transparent 35%);
   pointer-events: none;
 }
-.slideshow .slides { position: relative; width: 100%; aspect-ratio: 16 / 9; }
-@media (max-width: 640px){ .slideshow .slides { aspect-ratio: 4 / 5; } }
-
-.slide {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; opacity: 0; transform: scale(1.02);
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-}
-.slide.is-active { opacity: 1; transform: none; }
-
-.slideshow .slides { position: relative; width: 100%; aspect-ratio: 16 / 9; }
-@media (max-width: 640px) { .slideshow .slides { aspect-ratio: 4 / 5; } }
-
-.slide {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; opacity: 0; transform: scale(1.02);
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-}
-.slide.is-active { opacity: 1; transform: none; }
-.slideshow .slides {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;   /* ensures visible height */
-}
-@media (max-width: 640px) {
-  .slideshow .slides { aspect-ratio: 4 / 5; }
-}
-.slide {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0; transform: scale(1.02);
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-}
-.slide.is-active { opacity: 1; transform: none; }
-/* TEMP: visualize slideshow box */
-.slideshow .slides { outline: 2px dashed #0f0; background:#111; }
