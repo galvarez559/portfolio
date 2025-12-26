@@ -280,7 +280,7 @@ body::after {
       rgba(6,46,36,0.10) 25%,
       rgba(6,46,36,0.00) 30%
     ),
-    url("assets/forest.png") bottom center / cover no-repeat;
+    url("../assets/forest.png") bottom center / cover no-repeat;
 
   opacity: 0.30;         /* subtle; adjust 0.25–0.5 */
   filter: blur(0px);     /* soft “misty” look; try 0–2px */
